@@ -1,0 +1,47 @@
+openapi: 3.0.0
+info:
+  title: "📱 EasyLPAC"
+  version: 0.1.0
+paths:
+  /api/profiles:
+    get:
+      summary: list
+      responses:
+        "200":
+          description: ok
+  /api/profiles:
+    post:
+      summary: install
+      responses:
+        "200":
+          description: ok
+  /api/profiles/<iccid>/enable:
+    post:
+      summary: enable
+      responses:
+        "200":
+          description: ok
+  /api/profiles/<iccid>/disable:
+    post:
+      summary: disable
+      responses:
+        "200":
+          description: ok
+  /api/profiles/<iccid>:
+    delete:
+      summary: delete
+      responses:
+        "200":
+          description: ok
+  /api/discover:
+    post:
+      summary: SM-DP+ discover
+      responses:
+        "200":
+          description: ok
+  /api/eid:
+    get:
+      summary: EID
+      responses:
+        "200":
+          description: ok

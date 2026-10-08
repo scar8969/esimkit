@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{% block title %}EasyLPAC{% endblock %}</title>
+<style>
+:root{--bg:#0f1216;--panel:#171b22;--line:#242a35;--ink:#e8edf4;--dim:#8b97a8;--accent:#ffb020;--ok:#4fd18b;--no:#ef7674;--warn:#e8b04b}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--ink);font:14px/1.55 -apple-system,"Segoe UI",Roboto,sans-serif;display:flex;flex-direction:column;min-height:100vh}
+.top{display:flex;align-items:center;gap:16px;padding:12px 22px;background:var(--panel);border-bottom:1px solid var(--line);flex-wrap:wrap}
+.brand{font-weight:700;color:var(--accent);text-decoration:none}
+.top nav{display:flex;gap:14px;flex-wrap:wrap}
+.top nav a{color:var(--dim);text-decoration:none;padding:4px 2px}
+.top nav a:hover{color:var(--ink)}
+.top nav a.on{color:var(--ink);border-bottom:2px solid var(--accent)}
+main{padding:22px;flex:1;max-width:1080px;width:100%;margin:0 auto;display:flex;flex-direction:column;gap:16px}
+h1{font-size:18px}h2{font-size:15px;color:var(--dim);font-weight:600}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px}
+.stat{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:12px 14px}
+.stat .k{color:var(--dim);font-size:12px;text-transform:uppercase;letter-spacing:.04em}
+.stat .v{font-size:20px;font-weight:700;margin-top:4px}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.panel .hd{padding:10px 14px;border-bottom:1px solid var(--line);font-weight:600}
+.panel .bd{padding:14px}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+input,select,textarea{background:#0c0f13;border:1px solid var(--line);color:var(--ink);border-radius:8px;padding:8px 10px;font:inherit}
+textarea{width:100%;min-height:120px;font-family:ui-monospace,Consolas,monospace}
+.btn{background:var(--accent);color:#08101c;border:0;border-radius:8px;padding:8px 14px;font:inherit;font-weight:600;cursor:pointer}
+.btn.q{background:transparent;color:var(--ink);border:1px solid var(--line)}
+.btn.d{background:var(--no);color:#2a0a0a}
+.btn.g{background:var(--ok);color:#04241a}
+table{width:100%;border-collapse:collapse}
+th,td{text-align:left;padding:8px 10px;border-bottom:1px solid var(--line);vertical-align:top}
+th{color:var(--dim);font-size:12px;text-transform:uppercase;letter-spacing:.04em}
+.mono{font-family:ui-monospace,Consolas,monospace}
+.tag{display:inline-block;border:1px solid var(--line);border-radius:999px;padding:1px 9px;font-size:12px;color:var(--dim)}
+.tag.on{color:var(--ok);border-color:var(--ok)}
+.tag.no{color:var(--no);border-color:var(--no)}
+.tag.y{color:var(--warn);border-color:var(--warn)}
+.empty{color:var(--dim);padding:12px;border:1px dashed var(--line);border-radius:8px}
+.flash{border:1px solid var(--accent);background:rgba(127,140,255,.08);border-radius:8px;padding:10px 12px}
+.flash.no{border-color:var(--no)}
+.code{background:#0c0f13;border:1px solid var(--line);border-radius:8px;padding:12px;white-space:pre-wrap;font-family:ui-monospace,Consolas,monospace;font-size:13px}
+.warnbox{border:1px solid var(--warn);color:var(--warn);border-radius:8px;padding:10px 12px}
+footer{padding:14px 22px;color:var(--dim);border-top:1px solid var(--line);font-size:13px}
+footer a{color:var(--dim)}
+.note{color:var(--dim);font-size:13px}
+</style>
+</head>
+<body>
+<header class="top">
+  <a class="brand" href="{{ url_for('index') }}">{% block brand %}EasyLPAC{% endblock %}</a>
+  <nav>{% block nav %}{% endblock %}</nav>
+</header>
+<main>
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% for category, message in messages %}<div class="flash {{ category }}">{{ message }}</div>{% endfor %}
+  {% endwith %}
+  {% block content %}{% endblock %}
+</main>
+<footer>{% block footer %}EasyLPAC · <a href="{{ url_for('health') }}">/api/health</a>{% endblock %}</footer>
+{% block scripts %}{% endblock %}
+</body>
+</html>

@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block title %}EasyLPAC · add profile{% endblock %}
+{% block brand %}📱 EasyLPAC{% endblock %}
+{% block nav %}
+<a href="{{ url_for('index') }}"{% if request.endpoint == 'index' %} class="on"{% endif %}>Profiles</a>
+<a href="{{ url_for('add_profile') }}"{% if request.endpoint == 'add_profile' %} class="on"{% endif %}>Add profile</a>
+<a href="{{ url_for('lpa.profiles') }}">Profiles JSON</a>
+<a href="{{ url_for('lpa.eid') }}">EID JSON</a>
+<a href="{{ url_for('health') }}">Health</a>
+{% endblock %}
+{% block content %}
+<h1>Install a profile</h1>
+<div class="panel">
+  <div class="hd">Activation code</div>
+  <div class="bd">
+    <form method="post" action="{{ url_for('profile_install') }}">
+      <div class="row">
+        <input name="activation_code" style="flex:1;min-width:320px" placeholder="LPA:1$SMDP.JIO.COM$ACI…" required>
+        <button class="btn" type="submit">Download &amp; Install</button>
+      </div>
+      <p class="note" style="margin-top:12px">The code is handed to the lpacd bridge. With no card reader
+        and no <span class="mono">lpacd</span> on PATH this project answers
+        <span class="mono">no hardware bridge (lpacd not found)</span> and stores nothing — the documented
+        degradation, not a silent success.</p>
+    </form>
+  </div>
+</div>
+<div class="panel">
+  <div class="hd">SM-DP+ discovery</div>
+  <div class="bd">
+    <form method="post" action="{{ url_for('discover_form') }}">
+      <div class="row">
+        <input name="address" style="flex:1;min-width:320px" placeholder="LPA:1$SMDP.JIO.COM$7BD…" required>
+        <button class="btn q" type="submit">Resolve server</button>
+      </div>
+      <p class="note" style="margin-top:12px">Splits the activation code on <span class="mono">$</span> and
+        reports the SM-DP+ host. Pure string work — no network call is made.</p>
+    </form>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,87 @@
+{% extends "base.html" %}
+{% block title %}EasyLPAC · profiles{% endblock %}
+{% block brand %}📱 EasyLPAC{% endblock %}
+{% block nav %}
+<a href="{{ url_for('index') }}"{% if request.endpoint == 'index' %} class="on"{% endif %}>Profiles</a>
+<a href="{{ url_for('add_profile') }}"{% if request.endpoint == 'add_profile' %} class="on"{% endif %}>Add profile</a>
+<a href="{{ url_for('lpa.profiles') }}">Profiles JSON</a>
+<a href="{{ url_for('lpa.eid') }}">EID JSON</a>
+<a href="{{ url_for('health') }}">Health</a>
+{% endblock %}
+{% block content %}
+<h1>eSIM profiles</h1>
+<div class="grid">
+  <div class="stat"><div class="k">profiles</div><div class="v">{{ profiles|length }}</div></div>
+  <div class="stat"><div class="k">enabled</div><div class="v">{{ profiles|selectattr('state', 'equalto', 'enabled')|list|length }}</div></div>
+  <div class="stat"><div class="k">notifications</div><div class="v">{{ notifications|length }}</div></div>
+</div>
+<div class="panel">
+  <div class="hd">Stored profiles</div>
+  <div class="bd">
+  {% if profiles %}
+    <table>
+      <thead><tr><th>ICCID</th><th>carrier</th><th>state</th><th>SM-DP+</th><th>installed at</th><th>action</th></tr></thead>
+      <tbody>
+      {% for p in profiles %}
+        <tr>
+          <td class="mono">{{ p.iccid }}</td>
+          <td>{{ p.carrier }}</td>
+          <td>
+            {% if p.state == 'enabled' %}<span class="tag on">enabled</span>
+            {% elif p.state == 'disabled' %}<span class="tag y">disabled</span>
+            {% elif p.state == 'deleted' %}<span class="tag no">deleted</span>
+            {% else %}<span class="tag">installed</span>{% endif %}
+          </td>
+          <td class="mono">{{ p.smdp }}</td>
+          <td class="mono">{{ p.installed_at }}</td>
+          <td>
+            {% if p.state == 'enabled' %}
+            <form method="post" action="{{ url_for('lpa.disable', iccid=p.iccid) }}">
+              <button class="btn q" type="submit">Disable</button>
+            </form>
+            {% elif p.state in ('installed', 'disabled') %}
+            <form method="post" action="{{ url_for('lpa.enable', iccid=p.iccid) }}">
+              <button class="btn g" type="submit">Enable</button>
+            </form>
+            {% else %}
+            <span class="mono">—</span>
+            {% endif %}
+          </td>
+        </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+    <p class="note" style="margin-top:12px">Enable/disable post to the real JSON routes
+      <span class="mono">POST /api/profiles/&lt;iccid&gt;/enable</span> and
+      <span class="mono">/disable</span> and answer with JSON. Delete is
+      <span class="mono">DELETE /api/profiles/&lt;iccid&gt;</span> — an HTML form cannot
+      send DELETE, so it stays a curl-only call.</p>
+  {% else %}
+    <div class="empty">No profiles stored. Use the <a href="{{ url_for('add_profile') }}">Add profile</a> page to install one.</div>
+  {% endif %}
+  </div>
+</div>
+<div class="panel">
+  <div class="hd">Notifications</div>
+  <div class="bd">
+  {% if notifications %}
+    <table>
+      <thead><tr><th>id</th><th>profile</th><th>kind</th><th>message</th><th>at</th></tr></thead>
+      <tbody>
+      {% for n in notifications %}
+        <tr>
+          <td class="mono">{{ n.id }}</td>
+          <td class="mono">{{ n.profile_iccid }}</td>
+          <td>{{ n.kind }}</td>
+          <td>{{ n.message }}</td>
+          <td class="mono">{{ n.at }}</td>
+        </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+  {% else %}
+    <div class="empty">No notifications recorded yet.</div>
+  {% endif %}
+  </div>
+</div>
+{% endblock %}

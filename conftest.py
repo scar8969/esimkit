@@ -7,14 +7,34 @@ from the repository, whether or not the package has been installed.
 from __future__ import annotations
 
 import os
+import shutil
 import sys
+import tempfile
 
 _HERE = os.path.dirname(os.path.abspath(__file__))
 _SRC = os.path.join(_HERE, "src")
 if _SRC not in sys.path:
     sys.path.insert(0, _SRC)
 
+# The suite must never write to the repository's var/ directory. easylpac.paths
+# derives its layout from the environment at import time, so a throwaway root is
+# installed *before* the package is first imported. DATA_DIR is the documented
+# variable; INSTANCE_DIR and LOG_DIR are derived from it, which also exercises
+# the fallback branch in paths._env_path.
+_RUNTIME_DIR: str | None = None
+if not os.environ.get("EASYLPAC_DATA_DIR") and not os.environ.get("DATA_DIR"):
+    _RUNTIME_DIR = tempfile.mkdtemp(prefix="easylpac-tests-")
+    os.environ["EASYLPAC_DATA_DIR"] = _RUNTIME_DIR
+
 import pytest  # noqa: E402
+
+
+@pytest.fixture(scope="session", autouse=True)
+def discard_runtime_dir():
+    """Remove the throwaway runtime root once the session is over."""
+    yield
+    if _RUNTIME_DIR is not None:
+        shutil.rmtree(_RUNTIME_DIR, ignore_errors=True)
 
 
 @pytest.fixture(scope="session")

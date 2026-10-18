@@ -1,5 +1,5 @@
 """A4 EasyLPAC — tests. Run: pytest test_a4_easylpac.py"""
-import sys, os
+
 
 import pytest
 

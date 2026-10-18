@@ -9,8 +9,11 @@ from __future__ import annotations
 import os
 from pathlib import Path
 
-ENV_PREFIX = "EASYLPAC"
-
+#: Prefix for the namespaced spelling of every variable below. It must end
+#: in the separator: `_env_path` builds the name as ENV_PREFIX + name, so a
+#: missing underscore turns EASYLPACDATA_DIR into an unreachable name and the
+#: namespaced spelling is silently ignored.
+ENV_PREFIX = "EASYLPAC_"
 PACKAGE_DIR: Path = Path(__file__).resolve().parent
 SRC_DIR: Path = PACKAGE_DIR.parent
 PROJECT_ROOT: Path = SRC_DIR.parent

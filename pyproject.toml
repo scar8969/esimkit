@@ -109,5 +109,12 @@ check_untyped_defs = true
 show_error_codes = true
 
 [[tool.mypy.overrides]]
-module = ["flask.*", "werkzeug.*", "sqlalchemy.*"]
+module = ["flask.*", "werkzeug.*", "sqlalchemy.*", "flask_sqlalchemy.*"]
 ignore_missing_imports = true
+
+# flask_sqlalchemy stores the declarative base on the extension instance, so the
+# base class of Profile and Notification is a plain Any; subclassing it is
+# correct and intentional, and this is the only module where it happens.
+[[tool.mypy.overrides]]
+module = ["easylpac.models"]
+disallow_subclassing_any = false

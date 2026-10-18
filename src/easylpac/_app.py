@@ -8,17 +8,20 @@ pages (index, add) plus the form handlers behind them.
 Every route here reads or writes the real tables.  Without lpacd on PATH the
 install form reports "no hardware bridge (lpacd not found)" and stores nothing.
 """
+from __future__ import annotations
 
+from flask import Flask, Response, flash, jsonify, redirect, render_template, request, url_for
+from werkzeug.wrappers import Response as WerkzeugResponse
+
+from . import paths
 from .lpa.api import bp, get_bridge
 from .lpa.smdp import resolve
 from .models import Notification, Profile, db
 
-from flask import Flask, flash, jsonify, redirect, render_template, request, url_for
-from . import paths
-
 paths.ensure_runtime_dirs()
 
-def build_app():
+
+def build_app() -> Flask:
     """Build the application: configuration, database, then routes."""
     app = Flask(__name__, template_folder=str(paths.TEMPLATES_DIR),
                 instance_path=str(paths.INSTANCE_DIR))
@@ -30,17 +33,17 @@ def build_app():
     app.register_blueprint(bp)
 
     @app.get("/")
-    def index():
+    def index() -> str:
         profiles = Profile.query.order_by(Profile.iccid).all()
         notifications = Notification.query.order_by(Notification.id.desc()).limit(20).all()
         return render_template("index.html", profiles=profiles, notifications=notifications)
 
     @app.get("/add")
-    def add_profile():
+    def add_profile() -> str:
         return render_template("add.html")
 
     @app.post("/profiles")
-    def profile_install():
+    def profile_install() -> WerkzeugResponse:
         """HTML equivalent of POST /api/profiles, which requires a JSON body."""
         ac = (request.form.get("activation_code") or "").strip()
         if not ac:
@@ -56,7 +59,11 @@ def build_app():
         except NotImplementedError:
             flash("no hardware bridge (lpacd not found) — nothing was installed", "no")
             return redirect(url_for("add_profile"))
-        p = Profile(iccid=prof["iccid"], eid=prof.get("eid", ""),
+        iccid = prof.get("iccid")
+        if not iccid:
+            flash("bridge returned no iccid - nothing was installed", "no")
+            return redirect(url_for("add_profile"))
+        p = Profile(iccid=iccid, eid=prof.get("eid", ""),
                     carrier=prof.get("carrier", ""), state="installed",
                     smdp=prof.get("smdp") or server)
         db.session.add(p)
@@ -65,7 +72,7 @@ def build_app():
         return redirect(url_for("index"))
 
     @app.post("/discover")
-    def discover_form():
+    def discover_form() -> WerkzeugResponse:
         """HTML equivalent of POST /api/discover; resolves the SM-DP+ host offline."""
         address = (request.form.get("address") or "").strip()
         try:
@@ -77,12 +84,14 @@ def build_app():
         return redirect(url_for("add_profile"))
 
     @app.get("/api/health")
-    def health():
+    def health() -> Response:
         return jsonify({"status": "ok", "profiles": Profile.query.count()})
-
-    if __name__ == "__main__":
-        app.run(host="0.0.0.0", port=8000)
 
     return app
 
+
 app = build_app()
+
+
+if __name__ == "__main__":  # pragma: no cover - manual development entry point
+    app.run(host="0.0.0.0", port=8000)

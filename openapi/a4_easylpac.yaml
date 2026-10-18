@@ -9,7 +9,6 @@ paths:
       responses:
         "200":
           description: ok
-  /api/profiles:
     post:
       summary: install
       responses:
@@ -42,6 +41,12 @@ paths:
   /api/eid:
     get:
       summary: EID
+      responses:
+        "200":
+          description: ok
+  /api/health:
+    get:
+      summary: health
       responses:
         "200":
           description: ok

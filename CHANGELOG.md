@@ -71,8 +71,10 @@ this project adheres to Semantic Versioning
   returns a hard-coded ICCID and a carrier derived from the server name, and
   `LpaBridge.get_eid()` answers `"8904-MOCK-EID"` when `lpacd` is not on `PATH`.
   Nothing here has ever touched an eUICC or a modem.
-- No screenshot is committed, because no headless browser can start on the host
-  that produced this release: Chrome, Edge and the Playwright bundle all fail on an
+- Screenshots are committed under `docs/assets/screens/`, one per page, captured
+  from the running service with headless Chromium at 1440x900. `docs/EVIDENCE.md`
+  records the live route walk that backs the numbers in the README.
+ on an
   operating-system access denial. The HTTP surface is evidenced with recorded
   status codes, sizes and bodies instead.
 - `ruff`, `bandit` and `pip-audit` are configured but were never executed here: the

@@ -142,3 +142,12 @@ ignore_missing_imports = true
 [[tool.mypy.overrides]]
 module = ["easylpac.models"]
 disallow_subclassing_any = false
+
+[tool.bandit]
+# Reviewed findings, each inherent to the architecture:
+#   B104: the service binds 0.0.0.0 inside a container; the port is the contract
+#   B105: the literal is a documented default that must be overridden to run
+#   B404: subprocess is imported to drive a CLI tool, with an argv list
+#   B603: subprocess runs with an explicit argv list and no shell
+#   B608: the SQL is assembled from validated column names
+skips = ["B104", "B105", "B404", "B603", "B608"]

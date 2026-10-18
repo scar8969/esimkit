@@ -1,8 +1,8 @@
-# a4-easylpac
+# esimkit
 
 [![python: 3.11 %7C 3.12 %7C 3.13](https://img.shields.io/badge/python-3.11%20%7C%203.12%20%7C%203.13-3776ab)](#requirements) [![tests: 135 passed](https://img.shields.io/badge/tests-135%20passed-2ea44f)](#quality-gates) [![coverage: 100.0%25](https://img.shields.io/badge/coverage-100.0%25-brightgreen)](#quality-gates) [![version: 0.1.0](https://img.shields.io/badge/version-0.1.0-0969da)](CHANGELOG.md) [![license: MIT](https://img.shields.io/badge/license-MIT-2ea44f)](LICENSE)
 
-**a4-easylpac** is a Flask service packaged the way a production service is packaged: a real package under `src/`, an environment-only configuration contract, structured JSON logs with request correlation, the five operational endpoints an orchestrator expects, a multi-stage container image, and CI gates that keep all of it honest.
+**esimkit** is a Flask service packaged the way a production service is packaged: a real package under `src/`, an environment-only configuration contract, structured JSON logs with request correlation, the five operational endpoints an orchestrator expects, a multi-stage container image, and CI gates that keep all of it honest.
 
 This README is a measured document. Every number in it was produced on this exact checkout by the commands recorded in [docs/EVIDENCE.md](docs/EVIDENCE.md): **135 tests** run under pytest, **693 statements** traced by coverage, and **10 HTTP requests** issued over a real socket to the running server.
 
@@ -85,7 +85,7 @@ Status distribution: **200** x10. No response was a 5xx.
 
 ### Declared API contract
 
-`openapi/a4_easylpac.yaml` declares **7 paths** carrying **8 operations** (1 DELETE, 3 GET, 4 POST):
+`openapi/esimkit.yaml` declares **7 paths** carrying **8 operations** (1 DELETE, 3 GET, 4 POST):
 
 | Method | Path |
 | --- | --- |
@@ -129,7 +129,7 @@ Four of these are liveness and readiness plumbing for an orchestrator; `/metrics
 `/version` answered **200**:
 
 ```json
-{"config":{"app_name":"easylpac","data_dir":"C:\\Users\\priya\\Desktop\\project-skeletons\\projects\\a4_easylpac\\var","database_configured":false,"debug":false,"env":"development","host":"0.0.0.0","legacy_env_present":[],"log_json":true,"log_level":"INFO","port":8000,"secret_key_configured":false},"paths":{"data_dir":"C:\\Users\\priya\\Desktop\\project-skeletons\\projects\\a4_easylpac\\var","inst
+{"config":{"app_name":"easylpac","data_dir":".\\var","database_configured":false,"debug":false,"env":"development","host":"0.0.0.0","legacy_env_present":[],"log_json":true,"log_level":"INFO","port":8000,"secret_key_configured":false},"paths":{"data_dir":".\\var","inst
 ```
 
 ### Headers on every response
@@ -190,9 +190,9 @@ docs/
     payload.svg
     tests.svg
 openapi/
-  a4_easylpac.yaml
+  esimkit.yaml
 schema/
-  a4_easylpac.sql
+  esimkit.sql
 src/
   easylpac/
     __init__.py
@@ -208,7 +208,7 @@ src/
     py.typed
 tests/
   conftest.py
-  test_a4_easylpac.py
+  test_esimkit.py
   test_app_factory.py
   test_bridge.py
   test_cli.py
@@ -264,7 +264,7 @@ Coverage clears the **85%** floor declared in `pyproject.toml` (`fail_under`), s
 | File | def test_* | class Test* |
 | --- | --- | --- |
 | `tests/conftest.py` | 0 | 0 |
-| `tests/test_a4_easylpac.py` | 4 | 0 |
+| `tests/test_esimkit.py` | 4 | 0 |
 | `tests/test_app_factory.py` | 5 | 0 |
 | `tests/test_bridge.py` | 8 | 0 |
 | `tests/test_cli.py` | 12 | 0 |

@@ -3,13 +3,13 @@ requires = ["setuptools>=69", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "a4-easylpac"
+name = "esimkit"
 version = "0.1.0"
-description = "A4 EasyLPAC skeleton — eSIM profile manager (stretch, hardware)."
+description = "eSIM profile manager: discover, download, enable and disable LPA profiles on a local card reader over HTTP."
 readme = "README.md"
 requires-python = ">=3.11"
 license = { text = "MIT" }
-authors = [{ name = "project-skeletons maintainers" }]
+authors = [{ name = "Priyanshu Rout" }]
 keywords = ["flask", "service", "easylpac"]
 classifiers = [
   "Development Status :: 4 - Beta",
@@ -46,7 +46,7 @@ Documentation = "https://example.invalid/easylpac/docs"
 Issues = "https://example.invalid/easylpac/issues"
 
 [project.scripts]
-a4-easylpac = "easylpac.cli:main"
+esimkit = "easylpac.cli:main"
 
 [tool.setuptools]
 package-dir = { "" = "src" }

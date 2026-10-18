@@ -1,6 +1,6 @@
 """Flask application for EasyLPAC.
 
-Assembled from the project skeleton by _tools/build.py.  The wiring the skeleton
+Assembled from the project service by _tools/build.py.  The wiring the service
 cannot express lives here: an absolute template folder, an instance folder that
 exists before SQLAlchemy resolves the relative sqlite path, and the two HTML
 pages (index, add) plus the form handlers behind them.

@@ -77,7 +77,7 @@ process_uptime_seconds 2.233
 `/version` answered **200**:
 
 ```
-{"config":{"app_name":"easylpac","data_dir":"C:\\Users\\priya\\Desktop\\project-skeletons\\projects\\a4_easylpac\\var","database_configured":false,"debug":false,"env":"development","host":"0.0.0.0","legacy_env_present":[],"log_json":true,"log_level":"INFO","port":8000,"secret_key_configured":false},"paths":{"data_dir":"C:\\Users\\priya\\Desktop\\project-skeletons\\projects\\a4_easylpac\\var","inst
+{"config":{"app_name":"easylpac","data_dir":".\\var","database_configured":false,"debug":false,"env":"development","host":"0.0.0.0","legacy_env_present":[],"log_json":true,"log_level":"INFO","port":8000,"secret_key_configured":false},"paths":{"data_dir":".\\var","inst
 ```
 
 ## Headers observed on /healthz

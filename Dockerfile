@@ -34,7 +34,7 @@ RUN groupadd --system --gid 1001 app \
 WORKDIR /app
 
 COPY --from=builder /wheels /wheels
-RUN python -m pip install --no-cache-dir --no-index --find-links=/wheels a4-easylpac \
+RUN python -m pip install --no-cache-dir --no-index --find-links=/wheels esimkit \
  && rm -rf /wheels \
  && mkdir -p /var/lib/easylpac/instance /var/lib/easylpac/log \
  && chown -R app:app /var/lib/easylpac /app

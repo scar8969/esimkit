@@ -1,6 +1,6 @@
 # Architecture -- Easylpac
 
-A4 EasyLPAC skeleton — eSIM profile manager (stretch, hardware).
+A4 EasyLPAC service — eSIM profile manager (stretch, hardware).
 
 This document explains how the service is put together, why the seams sit where
 they do, and what breaks first under load.
@@ -9,7 +9,7 @@ they do, and what breaks first under load.
 
 ## 1. Context
 
-a4_easylpac is a single-process Flask service. It owns its own database (SQLite by
+esimkit is a single-process Flask service. It owns its own database (SQLite by
 default, any SQLAlchemy-supported backend via `DATABASE_URL`) and is deployed
 behind a reverse proxy or an orchestrator.
 
@@ -73,7 +73,7 @@ flowchart TB
 | `templates/add.html` | asset |
 | `templates/base.html` | asset |
 | `templates/index.html` | asset |
-| `tests/test_a4_easylpac.py` | module |
+| `tests/test_esimkit.py` | module |
 | `_app.py` | module |
 
 ---
@@ -136,8 +136,8 @@ writable lives under `/app`.
 
 | Table | Owner |
 | --- | --- |
-| `profiles` | owned by `a4_easylpac` |
-| `notifications` | owned by `a4_easylpac` |
+| `profiles` | owned by `esimkit` |
+| `notifications` | owned by `esimkit` |
 
 Tables are created by the application's own bootstrap on first use. No migration
 tool is wired in; the schema is additive, and the service tolerates a missing or

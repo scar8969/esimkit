@@ -16,5 +16,9 @@ def resolve(address: str) -> str:
 
 def download_via_es10b(server: str, activation_code: str) -> dict[str, str]:
     """Shape the ES10b download answer the bridge hands back."""
-    return {"iccid": "89148000000000000000", "carrier": server.split(".")[0].upper(),
-            "smdp": server, "eid": ""}
+    return {
+        "iccid": "89148000000000000000",
+        "carrier": server.split(".")[0].upper(),
+        "smdp": server,
+        "eid": "",
+    }

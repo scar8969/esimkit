@@ -3,6 +3,7 @@
 A fake executable is injected through subprocess, so the suite needs no card
 reader and no lpacd daemon.
 """
+
 from __future__ import annotations
 
 import pytest

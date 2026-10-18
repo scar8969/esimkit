@@ -1,4 +1,5 @@
 """Application factory contract: settings plumbing and the WSGI singleton."""
+
 from __future__ import annotations
 
 from flask import Flask

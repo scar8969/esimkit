@@ -3,6 +3,7 @@
 Every handler answers with a JSON envelope. A caller mistake is a typed 400; a
 bridge that cannot run is a 503 -- never a 500.
 """
+
 from __future__ import annotations
 
 from typing import Any
@@ -40,8 +41,20 @@ def _payload() -> dict[str, Any]:
 
 @bp.get("/api/profiles")
 def profiles() -> Response:
-    return jsonify({"profiles": [{"iccid": p.iccid, "eid": p.eid, "carrier": p.carrier,
-                                  "state": p.state, "smdp": p.smdp} for p in Profile.query.all()]})
+    return jsonify(
+        {
+            "profiles": [
+                {
+                    "iccid": p.iccid,
+                    "eid": p.eid,
+                    "carrier": p.carrier,
+                    "state": p.state,
+                    "smdp": p.smdp,
+                }
+                for p in Profile.query.all()
+            ]
+        }
+    )
 
 
 @bp.post("/api/profiles")
@@ -58,8 +71,13 @@ def install() -> Response | tuple[Response, int]:
         # The bridge answered, but with a payload this service cannot store.
         # That is a broken dependency, not a caller mistake: 503, not 500.
         raise ServiceUnavailable("bridge returned no iccid")
-    p = Profile(iccid=iccid, eid=prof.get("eid", ""), carrier=prof.get("carrier", ""),
-                state="installed", smdp=prof.get("smdp", ""))
+    p = Profile(
+        iccid=iccid,
+        eid=prof.get("eid", ""),
+        carrier=prof.get("carrier", ""),
+        state="installed",
+        smdp=prof.get("smdp", ""),
+    )
     db.session.add(p)
     db.session.commit()
     return jsonify({"status": "installing", "profile": prof})

@@ -3,6 +3,7 @@
 The prefixed spelling is the one an operator would guess from the variable
 names, so it must win; the bare name remains a supported fallback.
 """
+
 from __future__ import annotations
 
 import pathlib
@@ -61,8 +62,8 @@ def test_the_runtime_layout_is_derived_from_the_package_location():
     assert rendered["package_dir"] == str(paths.PACKAGE_DIR)
     assert rendered["templates_dir"] == str(paths.TEMPLATES_DIR)
     assert rendered["instance_dir"] == str(paths.INSTANCE_DIR)
-    assert paths.SRC_DIR == paths.PACKAGE_DIR.parent
-    assert paths.PROJECT_ROOT == paths.SRC_DIR.parent
+    assert paths.PACKAGE_DIR.parent == paths.SRC_DIR
+    assert paths.SRC_DIR.parent == paths.PROJECT_ROOT
 
 
 def test_ensure_runtime_dirs_is_idempotent():

@@ -1,4 +1,5 @@
 """Structured logging contract: formatter shapes, ids and lazy setup."""
+
 from __future__ import annotations
 
 import json

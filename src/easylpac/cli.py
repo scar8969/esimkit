@@ -4,6 +4,7 @@ Exit codes: 0 success, 2 refused (bad input, illegal transition, or no hardware
 bridge).  The bridge itself is never stubbed: without lpacd the command reports
 the same degradation the HTTP API returns as 503.
 """
+
 from __future__ import annotations
 
 import argparse
@@ -83,8 +84,13 @@ def cmd_install(args: argparse.Namespace) -> int:
     from .models import Profile
 
     with _db() as db:
-        p = Profile(iccid=iccid, eid=prof.get("eid", ""), carrier=prof.get("carrier", ""),
-                    state="installed", smdp=prof.get("smdp", server))
+        p = Profile(
+            iccid=iccid,
+            eid=prof.get("eid", ""),
+            carrier=prof.get("carrier", ""),
+            state="installed",
+            smdp=prof.get("smdp", server),
+        )
         db.session.merge(p)
         db.session.commit()
         print(f"installed {p.iccid} ({p.carrier})")

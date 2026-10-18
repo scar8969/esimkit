@@ -3,6 +3,7 @@
 datetime.utcnow() is deprecated since 3.12 and warns on every call; the default
 is now built from an aware now(UTC) and stripped back to naive.
 """
+
 from __future__ import annotations
 
 from datetime import UTC, datetime

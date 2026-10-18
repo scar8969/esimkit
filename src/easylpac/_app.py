@@ -1,13 +1,13 @@
 """Flask application for EasyLPAC.
 
-Assembled from the project service by _tools/build.py.  The wiring the service
-cannot express lives here: an absolute template folder, an instance folder that
+The wiring a blueprint cannot express lives here: an absolute template folder, an instance folder that
 exists before SQLAlchemy resolves the relative sqlite path, and the two HTML
 pages (index, add) plus the form handlers behind them.
 
 Every route here reads or writes the real tables.  Without lpacd on PATH the
 install form reports "no hardware bridge (lpacd not found)" and stores nothing.
 """
+
 from __future__ import annotations
 
 from flask import Flask, Response, flash, jsonify, redirect, render_template, request, url_for
@@ -23,8 +23,9 @@ paths.ensure_runtime_dirs()
 
 def build_app() -> Flask:
     """Build the application: configuration, database, then routes."""
-    app = Flask(__name__, template_folder=str(paths.TEMPLATES_DIR),
-                instance_path=str(paths.INSTANCE_DIR))
+    app = Flask(
+        __name__, template_folder=str(paths.TEMPLATES_DIR), instance_path=str(paths.INSTANCE_DIR)
+    )
     app.secret_key = "easylpac-dev"
     app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///" + str(paths.INSTANCE_DIR / "easylpac.db")
     db.init_app(app)
@@ -63,9 +64,13 @@ def build_app() -> Flask:
         if not iccid:
             flash("bridge returned no iccid - nothing was installed", "no")
             return redirect(url_for("add_profile"))
-        p = Profile(iccid=iccid, eid=prof.get("eid", ""),
-                    carrier=prof.get("carrier", ""), state="installed",
-                    smdp=prof.get("smdp") or server)
+        p = Profile(
+            iccid=iccid,
+            eid=prof.get("eid", ""),
+            carrier=prof.get("carrier", ""),
+            state="installed",
+            smdp=prof.get("smdp") or server,
+        )
         db.session.add(p)
         db.session.commit()
         flash("installed %s from %s" % (p.iccid, server))

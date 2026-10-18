@@ -5,5 +5,6 @@ VALID_TRANSITIONS = {
     "deleted": set(),
 }
 
+
 def can_transition(state: str, target: str) -> bool:
     return target in VALID_TRANSITIONS.get(state, set())

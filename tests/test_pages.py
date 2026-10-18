@@ -1,4 +1,5 @@
 """Server-rendered page contract: index, add form and the two form handlers."""
+
 from __future__ import annotations
 
 import easylpac.lpa.api as api
@@ -7,9 +8,16 @@ from easylpac.models import Notification, Profile, db
 
 class FakeBridge:
     def __init__(self, payload=None, fail=False):
-        self.payload = payload if payload is not None else {
-            "iccid": "89148000000000000001", "eid": "8904", "carrier": "JIO",
-            "smdp": "SMDP.JIO.COM"}
+        self.payload = (
+            payload
+            if payload is not None
+            else {
+                "iccid": "89148000000000000001",
+                "eid": "8904",
+                "carrier": "JIO",
+                "smdp": "SMDP.JIO.COM",
+            }
+        )
         self.fail = fail
 
     def install(self, activation_code):

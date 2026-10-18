@@ -3,6 +3,7 @@
 Each case builds a fresh Flask application, because Flask refuses to register a
 rule or blueprint once an application has handled its first request.
 """
+
 from __future__ import annotations
 
 import pytest

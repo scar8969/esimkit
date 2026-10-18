@@ -3,6 +3,7 @@
 Every failure the service can hand a caller is represented here, so a caller
 can branch on the machine-readable code without parsing English.
 """
+
 from __future__ import annotations
 
 from easylpac.errors import (

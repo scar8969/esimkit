@@ -5,6 +5,7 @@ calls degrade to a deterministic mock and the mutating calls refuse. Tests
 inject a fake executable by monkeypatching subprocess, so the suite needs no
 card reader and no daemon.
 """
+
 from __future__ import annotations
 
 import json

@@ -2,6 +2,7 @@
 
 The bridge is injected per test, so no lpacd daemon is required.
 """
+
 from __future__ import annotations
 
 import easylpac.cli as cli
@@ -10,9 +11,16 @@ from easylpac.models import Profile, db
 
 class FakeBridge:
     def __init__(self, payload=None, fail=False):
-        self.payload = payload if payload is not None else {
-            "iccid": "89148000000000000001", "eid": "8904", "carrier": "JIO",
-            "smdp": "SMDP.JIO.COM"}
+        self.payload = (
+            payload
+            if payload is not None
+            else {
+                "iccid": "89148000000000000001",
+                "eid": "8904",
+                "carrier": "JIO",
+                "smdp": "SMDP.JIO.COM",
+            }
+        )
         self.fail = fail
         self.enabled = []
 
@@ -28,8 +36,9 @@ class FakeBridge:
 
 
 def _add_profile(iccid="8914", state="installed"):
-    db.session.add(Profile(iccid=iccid, eid="8904", carrier="JIO", state=state,
-                           smdp="SMDP.JIO.COM"))
+    db.session.add(
+        Profile(iccid=iccid, eid="8904", carrier="JIO", state=state, smdp="SMDP.JIO.COM")
+    )
     db.session.commit()
 
 

@@ -2,6 +2,7 @@
 
 The bridge is injected per test, so no card reader and no lpacd are needed.
 """
+
 from __future__ import annotations
 
 import pytest
@@ -13,9 +14,16 @@ from easylpac.models import Profile, db
 
 class FakeBridge:
     def __init__(self, payload=None, fail=False):
-        self.payload = payload if payload is not None else {
-            "iccid": "89148000000000000001", "eid": "8904", "carrier": "JIO",
-            "smdp": "SMDP.JIO.COM"}
+        self.payload = (
+            payload
+            if payload is not None
+            else {
+                "iccid": "89148000000000000001",
+                "eid": "8904",
+                "carrier": "JIO",
+                "smdp": "SMDP.JIO.COM",
+            }
+        )
         self.fail = fail
         self.calls = []
 
@@ -50,8 +58,9 @@ def bridge(monkeypatch):
 
 
 def _add_profile(iccid="8914", state="installed"):
-    db.session.add(Profile(iccid=iccid, eid="8904", carrier="JIO", state=state,
-                           smdp="SMDP.JIO.COM"))
+    db.session.add(
+        Profile(iccid=iccid, eid="8904", carrier="JIO", state=state, smdp="SMDP.JIO.COM")
+    )
     db.session.commit()
 
 
@@ -69,8 +78,15 @@ def test_list_profiles_is_empty_by_default(client):
 def test_list_profiles_renders_every_row(client):
     _add_profile()
     body = client.get("/api/profiles").get_json()
-    assert body["profiles"] == [{"iccid": "8914", "eid": "8904", "carrier": "JIO",
-                                 "state": "installed", "smdp": "SMDP.JIO.COM"}]
+    assert body["profiles"] == [
+        {
+            "iccid": "8914",
+            "eid": "8904",
+            "carrier": "JIO",
+            "state": "installed",
+            "smdp": "SMDP.JIO.COM",
+        }
+    ]
 
 
 def test_install_stores_a_profile(client, bridge):

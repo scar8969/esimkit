@@ -4,7 +4,7 @@ Every line below was produced by a command run against this exact checkout, on t
 
 | | |
 | --- | --- |
-| Generated | 2026-10-19 02:20 |
+| Generated | 2026-10-19 09:39 |
 | Python | 3.14.7 |
 | Platform | Windows 11 |
 
@@ -15,7 +15,7 @@ python -m pytest -q
 ```
 
 - exit code **0**
-- 135 passed in 12.85s
+- 135 passed in 10.23s
 
 ## Static gates
 
@@ -37,6 +37,21 @@ The application was imported through `wsgi.py` and each GET path declared in `op
 | 200 | `/api/health` | 29 | application/json |
 
 3 paths walked, 0 of them raised or answered 5xx.
+
+## CLI
+
+```
+usage: lpac [-h] {list,install,enable} ...
+
+positional arguments:
+  {list,install,enable}
+    list                list installed profiles
+    install             install a profile from an activation code
+    enable              enable an installed profile
+
+options:
+  -h, --help            show this help message and exit
+```
 
 ## Screenshots
 
